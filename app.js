@@ -1,9 +1,9 @@
 const deleteCards = document.querySelectorAll('.card');
 const clr = document.getElementById('color');
 const takenCard = document.getElementById('takenCard');
-takenCard.value = '';
+takenCard.textContent = '';
 deleteCards.forEach(function(card,index){
-    card.innerHTML = `<h6>${index+1}</h6>`
+    card.innerHTML = `<small>${index+1}</small>`
     
 })
 var targetClass = [];
@@ -43,8 +43,10 @@ function getCards() {
     document.getElementById('mix').style.display = 'none';
 
     document.querySelector('.cards').addEventListener('click', function (e) {
-        targetClass.push(e.target.className);
-        takenCard.value += `${e.target.textContent} `;
+        if(e.target.className.includes('col-2') ){
+            targetClass.push(e.target.className);
+            takenCard.textContent += `${e.target.textContent} `;
+        }
         ids.push(e.target.innerHTML);
         clr.className = `form-control mt-3 bg-${e.target.classList[4]}`;
         if(targetClass.length == 2){
@@ -56,7 +58,6 @@ function getCards() {
                     deleteCards.forEach(function(card,index){
                         if(card.className == targetClass[0]){
                             card.className = `col-2 mr-4 card bg-success`;
-                            card.innerHTML = `<h6>${index}</h6><p class="text-center">Done</p>`
                         }
                     })
                     
@@ -66,7 +67,7 @@ function getCards() {
         if(targetClass.length >1){
             targetClass = [];
             ids = [];
-            takenCard.value += ' | ';
+            takenCard.textContent += ' | ';
         }
         clicks++;
         over();
@@ -75,13 +76,13 @@ function getCards() {
     
     function over(){
         let check = 0;
-        deleteCards.forEach(function(card){
-            if(card.className == 'col-2 mr-4 card bg-success'){
+        deleteCards.forEach(function(cards){
+            if(cards.className == 'col-2 mr-4 card bg-success'){
                 check++;
             }
         })
         if(check == 12){
-            takenCard.value = `You made ${clicks} moves`;
+            takenCard.textContent = `You made ${clicks} moves`;
             let t = 3;
             let x = setInterval(() => {
                 clr.value = `Restarting in ${t}`;
