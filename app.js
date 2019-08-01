@@ -105,4 +105,3 @@ function getCards() {
 function giveIndex(limit) {
     return Math.floor(Math.random() * limit);
 }
-
