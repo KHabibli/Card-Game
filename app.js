@@ -1,14 +1,11 @@
+
+let clicks = 0;
+var numbers = [];
 const deleteCards = document.querySelectorAll('.card');
-const clr = document.getElementById('color');
-const takenCard = document.getElementById('takenCard');
-takenCard.textContent = '';
 deleteCards.forEach(function(card,index){
     card.innerHTML = `<small>${index+1}</small>`
     
 })
-var targetClass = [];
-var ids = [];
-let clicks = 0;
 
 document.getElementById('mix').addEventListener('click', getCards);
 
@@ -41,18 +38,24 @@ function getCards() {
     }) 
 
     document.getElementById('mix').style.display = 'none';
-
+    const clr = document.getElementById('color');
+    const takenCard = document.getElementById('takenCard');
+    takenCard.textContent = '';
+    
+    var targetClass = [];
+    
     document.querySelector('.cards').addEventListener('click', function (e) {
         if(e.target.className.includes('col-2') ){
             targetClass.push(e.target.className);
             takenCard.textContent += `${e.target.textContent} `;
         }
-        ids.push(e.target.innerHTML);
+        numbers.push(e.target.textContent);
         clr.className = `form-control mt-3 bg-${e.target.classList[4]}`;
         if(targetClass.length == 2){
-                if(ids[0] == ids[1]){
+                if(numbers[0] == numbers[1]){
                 targetClass = [];
-                ids = [];
+                numbers = [];
+                takenCard.textContent += ' | ';
             }else{
                 if(targetClass[0] === targetClass[1]){
                     deleteCards.forEach(function(card,index){
@@ -66,9 +69,10 @@ function getCards() {
         }
         if(targetClass.length >1){
             targetClass = [];
-            ids = [];
+            numbers = [];
             takenCard.textContent += ' | ';
         }
+        console.log(numbers)
         clicks++;
         over();
     
